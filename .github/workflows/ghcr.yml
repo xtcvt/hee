@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  OWNER: ${{ github.repository_owner }}
+  OWNER: ${{ github.repository_hee }}
   IMAGE_NAME: web
 
 jobs:
