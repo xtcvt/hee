@@ -9,8 +9,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  OWNER: ${{ github.repository_hee }}
-  IMAGE_NAME: web
+  OWNER: ${{ github.repository_owner }}
+  IMAGE_NAME: ${{ github.repository_owner }}/hee
 
 jobs:
   build-and-publish:
@@ -30,13 +30,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debug variables
-        run: |
-          echo "Registry: ${{ env.REGISTRY }}"
-          echo "Owner: ${{ env.OWNER }}"
-          echo "Image Name: ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}"
-          echo "Tag: ${{ github.event.inputs.tag }}"
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
@@ -44,7 +37,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.tag }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
